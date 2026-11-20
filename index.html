@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Open-source browser build of the SmokeScreen camera identity pipeline, combined with the SocialHub social app hub." />
+    <meta name="theme-color" content="#0b0910" />
+    <title>SmokeScreen SocialHub — open source</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="SmokeScreen SocialHub home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-copy">
+          <strong>SmokeScreen <em>SocialHub</em></strong>
+          <small>open-source camera identity + social hub</small>
+        </span>
+      </a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="#studio">Studio</a>
+        <a href="#hub">Social hub</a>
+        <a href="#opensource">Open source</a>
+      </nav>
+      <span class="license-pill">MIT LICENSE</span>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <p class="eyebrow">Open source · local first · no account</p>
+        <h1>Your camera, your rules.<br /><span>Your apps, one hub.</span></h1>
+        <p class="hero-copy">
+          The SmokeScreen identity pipeline and the SocialHub app hub, rebuilt as one
+          browser-native project. Camera frames stay on this device. Nothing is uploaded,
+          logged, or sent to a model.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#studio">Open the studio</a>
+          <a class="button ghost" href="#opensource">How it is built</a>
+        </div>
+        <dl class="hero-facts">
+          <div><dt>10</dt><dd>identity modes</dd></div>
+          <div><dt>5</dt><dd>pinned social apps</dd></div>
+          <div><dt>0</dt><dd>network calls</dd></div>
+        </dl>
+      </section>
+
+      <section class="studio" id="studio" aria-labelledby="studio-title">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Live Identity</p>
+            <h2 id="studio-title">Camera studio</h2>
+          </div>
+          <p class="section-note">
+            Face-dependent modes use a draggable face area in this browser build.
+            The native SocialHub build uses on-device Vision face tracking.
+          </p>
+        </div>
+
+        <div class="studio-grid">
+          <div class="stage">
+            <video id="source" playsinline muted hidden></video>
+            <canvas id="preview" width="1280" height="720" aria-label="Live camera preview"></canvas>
+            <div class="face-guide" id="faceGuide" hidden aria-hidden="true">
+              <span class="face-guide-label">face area</span>
+            </div>
+            <div class="stage-empty" id="stageEmpty">
+              <span class="stage-empty-mark" aria-hidden="true"></span>
+              <p>Camera is off</p>
+              <small>Enable it from the controls. The preview never leaves this tab.</small>
+            </div>
+            <span class="stage-tag" id="stageTag">IDENTITY · OFF</span>
+          </div>
+
+          <aside class="controls" aria-label="Studio controls">
+            <div class="control-block" id="consentBlock">
+              <p class="control-title">1 · Consent</p>
+              <p class="control-copy">Your browser will ask for camera access. No stream is created until you allow it.</p>
+              <div class="button-row">
+                <button class="button primary" id="enableCamera" type="button">Enable camera</button>
+                <button class="button ghost" id="stopCamera" type="button" disabled>Stop</button>
+              </div>
+              <p class="status-line" id="cameraStatus" role="status">Camera off</p>
+            </div>
+
+            <div class="control-block">
+              <p class="control-title">2 · Identity mode</p>
+              <div class="mode-grid" id="modeGrid" aria-label="Identity modes"></div>
+              <p class="mode-summary" id="modeSummary"></p>
+            </div>
+
+            <div class="control-block">
+              <p class="control-title">3 · Tuning</p>
+              <label class="field">
+                <span>Quality <b id="qualityValue">Balanced · 24 fps</b></span>
+                <input id="quality" type="range" min="0" max="2" step="1" value="1" />
+              </label>
+              <label class="field">
+                <span>Face area <b id="areaValue">22%</b></span>
+                <input id="area" type="range" min="12" max="36" step="1" value="22" />
+              </label>
+              <label class="toggle"><input id="mirror" type="checkbox" checked /> Mirror preview</label>
+              <label class="reference">
+                <span>Reference image (Face map)</span>
+                <input id="reference" type="file" accept="image/*" />
+              </label>
+            </div>
+
+            <div class="control-block">
+              <p class="control-title">4 · Capture</p>
+              <div class="button-row">
+                <button class="button primary" id="record" type="button" disabled>Record</button>
+                <button class="button ghost" id="snapshot" type="button" disabled>Snapshot</button>
+              </div>
+              <p class="status-line" id="recordStatus">No recording</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="hub" id="hub" aria-labelledby="hub-title">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">SocialHub</p>
+            <h2 id="hub-title">One hub for your apps</h2>
+          </div>
+          <p class="section-note">
+            Pinned services from the SocialHub catalog. Shortcuts match the native app:
+            ⌘1–⌘5 on macOS, Ctrl+1–Ctrl+5 elsewhere.
+          </p>
+        </div>
+        <div class="service-grid" id="serviceGrid"></div>
+        <p class="hub-note">
+          Signal deliberately has no web client in this hub, matching the upstream project's
+          security position: the desktop app is the supported route.
+        </p>
+      </section>
+
+      <section class="opensource" id="opensource" aria-labelledby="opensource-title">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Open source</p>
+            <h2 id="opensource-title">Built to be read, forked, and audited</h2>
+          </div>
+        </div>
+        <div class="principles">
+          <article><span>01</span><h3>No silent collection</h3><p>No analytics, no telemetry, no upload path. Camera frames are drawn straight to a canvas.</p></article>
+          <article><span>02</span><h3>Honest capability labels</h3><p>Browser approximations are labelled as such. Nothing claims a model or virtual camera that is not there.</p></article>
+          <article><span>03</span><h3>Zero build step</h3><p>Plain HTML, CSS, and ES modules. Serve the folder locally and it runs.</p></article>
+          <article><span>04</span><h3>MIT licensed</h3><p>Fork it, ship it, replace the identity modes, or strip the hub down to what you need.</p></article>
+        </div>
+        <p class="attribution">
+          Inspired by <a href="https://smokescreenapp.com/" target="_blank" rel="noreferrer">SmokeScreen</a>.
+          This is an independent open-source reimplementation, not affiliated with or endorsed by that site.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>SmokeScreen SocialHub · open-source browser edition</p>
+      <p>Local-first · MIT · no account required</p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
